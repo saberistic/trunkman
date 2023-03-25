@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from "openai";
 const sdk = require('api')('@control/v2022-07-18#7xvueytb2xflflhue6n');
-sdk.auth('aabf265080c92953ab0c19d7be5d56ae09a4');
+sdk.auth(process.env.LATITUDE_API_KEY);
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -84,8 +84,14 @@ input: ${request}
 
 if they asked for anything other than creating a virtual machine deny with a creative funny message and tell them what you do in following json format:
 {
-  role: 'bot',
-  message: 'produced message'
+  'role': 'bot',
+  'message': 'produced message'
+}
+
+if suggesting plans suggest in following json format:
+{
+  'role': 'bot',
+  'plan_options': array of available plans
 }
 
 when ordering virtual machine one of above plans must be specificed
