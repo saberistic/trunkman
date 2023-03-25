@@ -18,11 +18,17 @@ export default function Home() {
       });
 
       const data = await response.json();
+      try {
+        const options = JSON.parse(data.content);
+        console.log(options.length);
+      } catch (error) {
+        console.error(error);
+      }
       if (response.status !== 200) {
         throw data.error || new Error(`Request failed with status ${response.status}`);
       }
 
-      setResult(data.result);
+      setResult(data);
       setAnimalInput("");
     } catch(error) {
       // Consider implementing your own error handling logic here
@@ -40,18 +46,19 @@ export default function Home() {
 
       <main className={styles.main}>
         <img src="/dog.png" className={styles.icon} />
-        <h3>Name my pet</h3>
+        <h3>Suggest a virtual machine plan</h3>
         <form onSubmit={onSubmit}>
           <input
             type="text"
             name="animal"
-            placeholder="Enter an animal"
+            placeholder="Tell us about your virtual machine"
             value={animalInput}
             onChange={(e) => setAnimalInput(e.target.value)}
           />
-          <input type="submit" value="Generate names" />
+          <input type="submit" value="Find a plan" />
         </form>
-        <div className={styles.result}>{result}</div>
+        <div className={styles.result}>{result?.role}: {result?.content}</div>
+        {/* <div>{JSON.parse(result?.content.split("\n\n")[0])}</div> */}
       </main>
     </div>
   );
